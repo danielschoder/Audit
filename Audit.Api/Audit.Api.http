@@ -1,6 +1,6 @@
 @Audit.Api_HostAddress = http://localhost:5287
 
-GET {{Audit.Api_HostAddress}}/weatherforecast/
+GET {{Audit.Api_HostAddress}}/
 Accept: application/json
 
 ###
