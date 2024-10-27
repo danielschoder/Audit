@@ -13,9 +13,9 @@ public class InsertDbContentChangeCommandHandler(IApplicationDbContext context)
 
     public async Task Handle(InsertDbContentChangeCommand request, CancellationToken cancellationToken)
     {
-        var entityFieldContentChange = request.AuditLogMessage.Adapt<EntityFieldContentChange>();
+        var entityFieldContentChange = request.AuditLogMessage.Adapt<DbContentChange>();
         entityFieldContentChange.Id = Guid.NewGuid();
-        await _context.EntityFieldContentChanges.AddAsync(entityFieldContentChange, cancellationToken);
+        await _context.DbContentChanges.AddAsync(entityFieldContentChange, cancellationToken);
         await _context.SaveChangesAsync(cancellationToken);
     }
 }

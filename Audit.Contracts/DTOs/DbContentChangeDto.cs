@@ -1,6 +1,6 @@
-﻿namespace Audit.Domain.Entities;
+﻿namespace Audit.Contracts.DTOs;
 
-public class EntityFieldContentChange
+public class DbContentChangeDto
 {
     public Guid Id { get; set; }
 

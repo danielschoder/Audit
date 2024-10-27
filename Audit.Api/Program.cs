@@ -21,6 +21,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.MapAliveEndpoints();
+app.MapDbContentChangesEndpoints();
 
 app.UseHttpsRedirection();
 

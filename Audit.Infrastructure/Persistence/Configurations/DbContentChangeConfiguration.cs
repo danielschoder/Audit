@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Audit.Infrastructure.Persistence.Configurations;
 
-public class EntityFieldContentChangeConfiguration
+public class DbContentChangeConfiguration
 {
-    public static void Configure(EntityTypeBuilder<EntityFieldContentChange> builder)
+    public static void Configure(EntityTypeBuilder<DbContentChange> builder)
     {
         builder.HasKey(e => e.Id);
         builder.Property(e => e.EntityId).HasMaxLength(1023);

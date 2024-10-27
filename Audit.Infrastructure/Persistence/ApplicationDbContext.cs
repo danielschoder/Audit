@@ -11,14 +11,14 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
 {
     private readonly string _connectionString = configuration.GetConnectionString("DefaultConnection") ?? "";
 
-    public DbSet<EntityFieldContentChange> EntityFieldContentChanges { get; set; }
+    public DbSet<DbContentChange> DbContentChanges { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         => optionsBuilder.UseSqlServer(_connectionString);
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        EntityFieldContentChangeConfiguration.Configure(modelBuilder.Entity<EntityFieldContentChange>());
+        DbContentChangeConfiguration.Configure(modelBuilder.Entity<DbContentChange>());
 
         base.OnModelCreating(modelBuilder);
     }

@@ -5,7 +5,7 @@ namespace Audit.Application.Interfaces.Persistence;
 
 public interface IApplicationDbContext
 {
-    DbSet<EntityFieldContentChange> EntityFieldContentChanges { get; set; }
+    DbSet<DbContentChange> DbContentChanges { get; set; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }
