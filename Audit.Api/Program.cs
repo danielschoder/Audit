@@ -11,17 +11,19 @@ builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(GetVe
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddCorsPolicy();
 
 var app = builder.Build();
+
+app.UseCors("AllowAllOrigins");
+app.MapAliveEndpoints();
+app.MapDbContentChangesEndpoints();
 
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
-app.MapAliveEndpoints();
-app.MapDbContentChangesEndpoints();
 
 app.UseHttpsRedirection();
 
