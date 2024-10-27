@@ -5,12 +5,11 @@ namespace Audit.Infrastructure.Consumers;
 
 public class AuditLogConsumer : IConsumer<AuditLogMessage>
 {
-    public Task Consume(ConsumeContext<AuditLogMessage> context)
+    public async Task Consume(ConsumeContext<AuditLogMessage> context)
     {
         var message = context.Message;
 
         // Process the message here
-
-        return Task.CompletedTask;
+        await context.ConsumeCompleted;
     }
 }

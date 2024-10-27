@@ -2,9 +2,12 @@ using Audit.Api.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.ConfigureJsonOptions();
+builder.Services.AddApplicationDbContext(builder.Configuration);
+builder.Services.AddRabbitMqMassTransit(builder.Configuration);
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddRabbitMqMassTransit(builder.Configuration);
 
 var app = builder.Build();
 
