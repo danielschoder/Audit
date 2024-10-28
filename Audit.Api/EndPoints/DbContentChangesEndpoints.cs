@@ -7,10 +7,10 @@ public static class DbContentChangesEndpoints
 {
     public static void MapDbContentChangesEndpoints(this IEndpointRouteBuilder app)
     {
-        app.MapGet("/api/dbcontentchanges", ListDriversAsync);
+        app.MapGet("/api/dbcontentchanges", ListDbContentChangesAsync);
     }
 
-    public static async Task<IResult> ListDriversAsync(
+    public static async Task<IResult> ListDbContentChangesAsync(
         IMediator mediator,
         int pageNumber = 1,
         int pageSize = 10)

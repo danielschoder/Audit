@@ -31,7 +31,7 @@ public class DbContentChangesEndpointsTests
             .ReturnsAsync(expectedResponse);
 
         // Act
-        var result = await DbContentChangesEndpoints.ListDriversAsync(_mediatorMock.Object, pageNumber, pageSize);
+        var result = await DbContentChangesEndpoints.ListDbContentChangesAsync(_mediatorMock.Object, pageNumber, pageSize);
 
         // Assert
         Assert.That(result, Is.InstanceOf<Ok<PaginatedResult<DbContentChangeDto>>>()); ;
