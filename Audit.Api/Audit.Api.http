@@ -1,6 +1,11 @@
-@Audit.Api_HostAddress = http://localhost:5287
+@Audit.Api_HostAddress = https://localhost:7168
 
 GET {{Audit.Api_HostAddress}}/
+Accept: application/json
+
+###
+
+GET {{Audit.Api_HostAddress}}/api/dbcontentchanges?pageNumber=1&pageSize=2
 Accept: application/json
 
 ###
