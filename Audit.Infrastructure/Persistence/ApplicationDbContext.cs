@@ -6,15 +6,22 @@ using Microsoft.Extensions.Configuration;
 
 namespace Audit.Infrastructure.Persistence;
 
-public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IConfiguration configuration)
+public class ApplicationDbContext(
+    DbContextOptions<ApplicationDbContext> options,
+    IConfiguration configuration)
     : DbContext(options), IApplicationDbContext
 {
-    private readonly string _connectionString = configuration.GetConnectionString("DefaultConnection") ?? "";
+    private readonly IConfiguration _configuration = configuration;
 
     public DbSet<DbContentChange> DbContentChanges { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseSqlServer(_connectionString);
+    {
+        if (!optionsBuilder.IsConfigured)
+        {
+            optionsBuilder.UseSqlServer(_configuration.GetConnectionString("DefaultConnection") ?? "");
+        }
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
