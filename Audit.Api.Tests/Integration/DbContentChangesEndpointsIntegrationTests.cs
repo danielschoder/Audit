@@ -21,7 +21,7 @@ public class DbContentChangesEndpointsTests
     }
 
     [Test]
-    public async Task ListDriversAsync_ShouldReturnOk_WithExpectedData()
+    public async Task ListDbContentChangesAsync_ShouldReturnOk_WithExpectedData()
     {
         // Arrange
         var mediator = _factory.Services.GetService<IMediator>() ?? throw new Exception();
