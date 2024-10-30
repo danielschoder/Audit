@@ -13,21 +13,25 @@ public class GetDbContentChangesQueryHandler(IApplicationDbContext dbContext)
     public async Task<PaginatedResult<DbContentChangeDto>> Handle(GetDbContentChangesQuery request, CancellationToken cancellationToken)
     {
         var skip = (request.PageNumber - 1) * request.PageSize;
-        var query = _dbContext.DbContentChanges.AsNoTracking();
-        var totalRecords = await query.CountAsync(cancellationToken);
-        var dbContentChanges = await _dbContext.DbContentChanges
-            .AsNoTracking()
-            .OrderByDescending(e => e.ChangedDateTime)
-            .Skip(skip)
-            .Take(request.PageSize)
-            .ToListAsync(cancellationToken);
+        var dbContentChangesQuery = _dbContext.DbContentChanges.AsNoTracking();
+        var result = await dbContentChangesQuery
+            .Select(e => new
+            {
+                TotalCount = dbContentChangesQuery.Count(),
+                Records = dbContentChangesQuery
+                    .OrderByDescending(e => e.ChangedDateTime)
+                    .Skip(skip)
+                    .Take(request.PageSize)
+                    .ToList()
+            })
+            .FirstOrDefaultAsync(cancellationToken);
 
         return new PaginatedResult<DbContentChangeDto>
         {
-            Data = dbContentChanges.Adapt<List<DbContentChangeDto>>(),
+            Data = result?.Records.Adapt<List<DbContentChangeDto>>() ?? [],
             CurrentPage = request.PageNumber,
             PageSize = request.PageSize,
-            TotalRecords = totalRecords
+            TotalRecords = result?.TotalCount ?? 0
         };
     }
 }
