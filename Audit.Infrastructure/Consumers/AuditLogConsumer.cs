@@ -1,4 +1,4 @@
-﻿using Audit.Application.Commands;
+﻿using Audit.Application.Handlers.CommandHandlers;
 using IntegrationEvents;
 using MassTransit;
 using MediatR;
@@ -12,7 +12,7 @@ public class AuditLogConsumer(IMediator mediator) : IConsumer<AuditLogMessage>
     public async Task Consume(ConsumeContext<AuditLogMessage> context)
     {
         var message = context.Message;
-        await _mediator.Send(new InsertDbContentChangeCommand(message));
+        await _mediator.Send(new InsertDbContentChange.Command(message));
         await context.ConsumeCompleted;
     }
 }

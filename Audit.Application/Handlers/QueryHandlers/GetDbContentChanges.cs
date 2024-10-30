@@ -1,5 +1,4 @@
 ﻿using Audit.Application.Interfaces.Persistence;
-using Audit.Application.Queries;
 using Audit.Contracts.DTOs;
 using Mapster;
 using MediatR;
@@ -7,12 +6,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Audit.Application.Handlers.QueryHandlers;
 
-public class GetDbContentChangesQueryHandler(IApplicationDbContext dbContext)
-    : HandlerBase(dbContext), IRequestHandler<GetDbContentChangesQuery, PaginatedResult<DbContentChangeDto>>
+public class GetDbContentChanges(IApplicationDbContext dbContext)
+    : HandlerBase(dbContext), IRequestHandler<GetDbContentChanges.Query, PaginatedResult<DbContentChangeDto>>
 {
-    public async Task<PaginatedResult<DbContentChangeDto>> Handle(GetDbContentChangesQuery request, CancellationToken cancellationToken)
+    public record Query(int PageNumber, int PageSize) : IRequest<PaginatedResult<DbContentChangeDto>>;
+
+    public async Task<PaginatedResult<DbContentChangeDto>> Handle(Query query, CancellationToken cancellationToken)
     {
-        var skip = (request.PageNumber - 1) * request.PageSize;
+        var skip = (query.PageNumber - 1) * query.PageSize;
         var dbContentChangesQuery = _dbContext.DbContentChanges.AsNoTracking();
         var result = await dbContentChangesQuery
             .Select(e => new
@@ -21,16 +22,16 @@ public class GetDbContentChangesQueryHandler(IApplicationDbContext dbContext)
                 Records = dbContentChangesQuery
                     .OrderByDescending(e => e.ChangedDateTime)
                     .Skip(skip)
-                    .Take(request.PageSize)
+                    .Take(query.PageSize)
                     .ToList()
             })
             .FirstOrDefaultAsync(cancellationToken);
 
-        return new PaginatedResult<DbContentChangeDto>
+        return new PaginatedResult<DbContentChangeDto>(default, default, default)
         {
             Data = result?.Records.Adapt<List<DbContentChangeDto>>() ?? [],
-            CurrentPage = request.PageNumber,
-            PageSize = request.PageSize,
+            CurrentPage = query.PageNumber,
+            PageSize = query.PageSize,
             TotalRecords = result?.TotalCount ?? 0
         };
     }

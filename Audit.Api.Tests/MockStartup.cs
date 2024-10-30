@@ -14,7 +14,7 @@ public class MockStartup
     {
         var mediatorMock = new Mock<IMediator>();
         mediatorMock.Setup(m => m.Send(It.IsAny<GetDbContentChangesQuery>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(new PaginatedResult<DbContentChangeDto> { TotalRecords = 0 });
+            .ReturnsAsync(new PaginatedResult<DbContentChangeDto>(default, default, default) { TotalRecords = 0 });
 
         services.AddSingleton(mediatorMock.Object);
         services.AddRouting();

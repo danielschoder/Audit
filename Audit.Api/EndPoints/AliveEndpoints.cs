@@ -1,4 +1,4 @@
-﻿using Audit.Application.Queries;
+﻿using Audit.Application.Handlers.QueryHandlers;
 using MediatR;
 
 namespace Audit.Api.EndPoints;
@@ -11,6 +11,6 @@ public static class AliveEndpoints
         app.MapGet("/api", GetVersionAsync).WithOpenApi();
 
         static async Task<IResult> GetVersionAsync(IMediator mediator)
-            => Results.Ok(await mediator.Send(new GetVersionQuery()));
+            => Results.Ok(await mediator.Send(new GetVersion.Query()));
     }
 }

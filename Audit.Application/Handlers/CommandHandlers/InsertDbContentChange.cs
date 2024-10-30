@@ -1,17 +1,19 @@
-﻿using Audit.Application.Commands;
-using Audit.Application.Interfaces.Persistence;
+﻿using Audit.Application.Interfaces.Persistence;
 using Audit.Domain.Entities;
+using IntegrationEvents;
 using Mapster;
 using MediatR;
 
 namespace Audit.Application.Handlers.CommandHandlers;
 
-public class InsertDbContentChangeCommandHandler(IApplicationDbContext context)
-    : IRequestHandler<InsertDbContentChangeCommand>
+public class InsertDbContentChange(IApplicationDbContext context)
+    : IRequestHandler<InsertDbContentChange.Command>
 {
     private readonly IApplicationDbContext _context = context;
 
-    public async Task Handle(InsertDbContentChangeCommand request, CancellationToken cancellationToken)
+    public record Command(AuditLogMessage AuditLogMessage) : IRequest;
+
+    public async Task Handle(Command request, CancellationToken cancellationToken)
     {
         var entityFieldContentChange = request.AuditLogMessage.Adapt<DbContentChange>();
         entityFieldContentChange.Id = Guid.NewGuid();

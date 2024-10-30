@@ -2,8 +2,7 @@
 
 namespace Audit.Application.Handlers;
 
-public abstract class HandlerBase(
-    IApplicationDbContext dbContext)
+public abstract class HandlerBase(IApplicationDbContext dbContext)
 {
     protected readonly IApplicationDbContext _dbContext = dbContext;
 }

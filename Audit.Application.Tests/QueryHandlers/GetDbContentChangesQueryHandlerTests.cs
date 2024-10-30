@@ -13,7 +13,7 @@ namespace Audit.Application.Tests.QueryHandlers
     {
         private Mock<IConfiguration> _mockConfiguration;
         private ApplicationDbContext _context;
-        private GetDbContentChangesQueryHandler _handler;
+        private GetDbContentChanges _handler;
 
         [SetUp]
         public void SetUp()
@@ -24,7 +24,7 @@ namespace Audit.Application.Tests.QueryHandlers
 
             _mockConfiguration = new Mock<IConfiguration>();
             _context = new ApplicationDbContext(options, _mockConfiguration.Object);
-            _handler = new GetDbContentChangesQueryHandler(_context);
+            _handler = new GetDbContentChanges(_context);
         }
 
         [Test]
@@ -60,7 +60,7 @@ namespace Audit.Application.Tests.QueryHandlers
             await _context.DbContentChanges.AddRangeAsync(contentChanges);
             await _context.SaveChangesAsync();
 
-            var query = new GetDbContentChangesQuery(PageNumber: 1, PageSize: 1);
+            var query = new GetDbContentChanges(PageNumber: 1, PageSize: 1);
 
             // Act
             var result = await _handler.Handle(query, CancellationToken.None);

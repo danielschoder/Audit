@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.ConfigureJsonOptions();
 builder.Services.AddApplicationDbContext(builder.Configuration);
 builder.Services.AddRabbitMqMassTransit(builder.Configuration);
-builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(GetVersionQueryHandler).Assembly));
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(GetVersion).Assembly));
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

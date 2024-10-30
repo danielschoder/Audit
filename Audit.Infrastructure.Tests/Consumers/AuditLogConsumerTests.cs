@@ -1,4 +1,4 @@
-using Audit.Application.Commands;
+using Audit.Application.Handlers.CommandHandlers;
 using Audit.Infrastructure.Consumers;
 using IntegrationEvents;
 using MassTransit;
@@ -31,7 +31,7 @@ namespace Audit.Infrastructure.Tests.Consumers
             await _consumer.Consume(context);
 
             // Assert
-            _mediatorMock.Verify(m => m.Send(It.Is<InsertDbContentChangeCommand>(
+            _mediatorMock.Verify(m => m.Send(It.Is<InsertDbContentChange.Command>(
                 cmd => cmd.AuditLogMessage == auditLogMessage),
                 It.IsAny<CancellationToken>()), Times.Once);
         }
